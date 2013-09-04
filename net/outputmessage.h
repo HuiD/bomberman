@@ -2,7 +2,9 @@
 #define __OUTPUTMESSAGE_H
 
 #include "decl.h"
-#include <util/databuffer.h>
+#include <vector>
+
+#define DATA_SIZE 10240
 
 class OutputMessage
 {
@@ -19,7 +21,7 @@ public:
 	size_t size() const { return m_size; }
 
 private:
-	DataBuffer<uint8_t> m_data;
+	std::array<uint8_t, DATA_SIZE> m_data;
 	uint32_t m_pos;
 	size_t m_size;
 };
