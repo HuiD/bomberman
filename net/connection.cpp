@@ -36,7 +36,7 @@ void Connection::close()
 	m_socket.close();
 }
 
-void Connection::write(uint8_t *bytes, uint16_t size)
+void Connection::write(const uint8_t *bytes, uint16_t size)
 {
 	if (!m_outputStream) {
 		if (!m_outputStreams.empty()) {

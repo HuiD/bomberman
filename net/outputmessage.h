@@ -2,8 +2,7 @@
 #define __OUTPUTMESSAGE_H
 
 #include "decl.h"
-
-#include <vector>
+#include <util/databuffer.h>
 
 class OutputMessage
 {
@@ -17,9 +16,10 @@ public:
 	void addString(const std::string& str);
 
 	const uint8_t *data() const { return &m_data[0]; }
+	size_t size() const { return m_size; }
 
 private:
-	std::vector<uint8_t> m_data;
+	DataBuffer<uint8_t> m_data;
 	uint32_t m_pos;
 	size_t m_size;
 };

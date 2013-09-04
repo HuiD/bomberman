@@ -18,7 +18,7 @@ public:
 	void close();
 	bool isConnected() const { return m_socket.is_open(); }
 
-	void write(uint8_t *data, uint16_t bytes);
+	void write(const uint8_t *data, uint16_t bytes);
 	void read(uint16_t bytes, const ReadCallback& rc);
 
 	std::string getIP();
@@ -32,6 +32,7 @@ protected:
 			 std::shared_ptr<asio::streambuf> m_outputStream);
 	void handleRead(const boost::system::error_code& e, size_t readSize);
 	void handleError(const boost::system::error_code& e);
+
 private:
 	std::function<void()> m_connectCallback;
 	ReadCallback m_readCallback;
