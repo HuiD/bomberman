@@ -18,5 +18,9 @@ class Listener;
 typedef std::shared_ptr<Connection> ConnectionPtr;
 typedef std::shared_ptr<Listener> ListenerPtr;
 
+#ifdef _MSC_VER
+	#pragma warning(disable:4800)
+#endif
+
 #endif
 

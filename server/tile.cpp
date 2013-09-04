@@ -1,5 +1,7 @@
+
 #include "tile.h"
 #include "item.h"
+#include "player.h"
 
 Tile::Tile(const Position2D& pos) :
 	m_position(pos)
@@ -41,7 +43,7 @@ void Tile::addItem(const ItemPtr& item)
 
 bool Tile::canAdd(const PlayerPtr& player) const
 {
-	if (m_player)
+	if (!m_player)
 		return false;
 
 	for (const ItemPtr& i : m_items)

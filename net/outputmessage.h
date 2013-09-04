@@ -12,6 +12,13 @@ public:
 	OutputMessage();
 	~OutputMessage();
 
+	template<typename T>
+	void add(T value) {
+		*reinterpret_cast<T*>(&m_data + m_pos) = value;
+		m_pos += sizeof(T);
+		m_size += sizeof(T);
+	}
+
 	void addByte(uint8_t byte);
 	void addU16(uint16_t val);
 	void addU32(uint32_t val);
