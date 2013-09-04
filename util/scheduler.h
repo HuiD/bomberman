@@ -28,6 +28,7 @@
 #include <list>
 #include <vector>
 #include <chrono>
+#include <memory>
 
 typedef std::function<void ()> EventFunc;
 

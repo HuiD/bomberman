@@ -48,20 +48,20 @@ uint32_t Scheduler::scheduleEvent(const EventFunc& fun, int64_t delay, bool repe
 {
 	std::lock_guard<std::mutex> guard(m_mutex);
 	if (m_stopped)
-		return nullptr;
+		return 0;
 
 	EventPtr event(new Event(fun, delay, repeated));
 	event->setID(m_lastId++);
 	m_eventList.push_back(event);
 	m_condition.notify_one();
-	return event;
+	return event->getID();
 }
 
 void Scheduler::stopEvent(uint32_t eventId)
 {
 	// avoid race conditions and just remove in the thread
 	std::lock_guard<std::mutex> guard(m_mutex);
-	auto it = m_eventIds.find(eventId);
+	auto it = std::find(m_eventIds.begin(), m_eventIds.end(), eventId);
 	if (it != m_eventIds.end())
 		m_eventIds.erase(it);
 }
@@ -86,15 +86,20 @@ void Scheduler::schedulerThread()
 			const EventPtr& ev = *it;
 			uniqueLock.unlock();
 
-			if (std::find(m_eventIds.begin(), m_eventIds.end(), ev->getID() != m_eventIds.end())) {
+			auto iter = std::find(m_eventIds.begin(), m_eventIds.end(), ev->getID());
+			if (iter != m_eventIds.end()) {
 				(*ev) ();
 
 				if (!ev->isRepeated()) {
 					uniqueLock.lock();
 					m_eventList.erase(it++);
-					m_eventIds.erase(it->getID());
+					m_eventIds.erase(iter);
 					uniqueLock.unlock();
 				}
+			} else {
+				uniqueLock.lock();
+				m_eventList.erase(it++);
+				uniqueLock.unlock();
 			}
 		}
 	}

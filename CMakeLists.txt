@@ -49,6 +49,6 @@ include(net/CMakeLists.txt)
 include(util/CMakeLists.txt)
 include(server/CMakeLists.txt)
 
-add_executable(${PROJECT_NAME} ${net_SOURCES} ${server_SOURCES})
+add_executable(${PROJECT_NAME} ${util_SOURCES} ${net_SOURCES} ${server_SOURCES})
 target_link_libraries(${PROJECT_NAME} ${net_LIBRARIES})
 
