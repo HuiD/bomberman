@@ -17,7 +17,7 @@ public:
 	ItemList getItems() const;
 	void addItem(const ItemPtr& item);
 
-	bool canAdd(const PlayerPtr& player); const;
+	bool canAdd(const PlayerPtr& player) const;
 
 private:
 	Position2D m_position;

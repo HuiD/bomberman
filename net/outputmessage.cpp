@@ -46,7 +46,7 @@ void OutputMessage::addString(const std::string& str)
 {
 	uint16_t len = str.length();
 	addU16(len);
-	memcpy((char *)&m_buffer[m_pos], str.c_str(), len);
+	memcpy((char *)&m_data[m_pos], str.c_str(), len);
 	m_pos += len;
 	m_size += len;
 }

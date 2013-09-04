@@ -22,6 +22,7 @@
 #include "scheduler.h"
 
 #include <iostream>
+#include <algorithm>
 
 Scheduler g_sched;
 
@@ -85,10 +86,10 @@ void Scheduler::schedulerThread()
 			const EventPtr& ev = *it;
 			uniqueLock.unlock();
 
-			if (m_eventIds.find(ev->getID()) != m_eventIds.end()) {
+			if (std::find(m_eventIds.begin(), m_eventIds.end(), ev->getID() != m_eventIds.end())) {
 				(*ev) ();
 
-				if (!ev->repeat()) {
+				if (!ev->isRepeated()) {
 					uniqueLock.lock();
 					m_eventList.erase(it++);
 					m_eventIds.erase(it->getID());

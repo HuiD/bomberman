@@ -13,6 +13,8 @@ public:
 	TilePtr getTile() const;
 	void setTile(const TilePtr& tile);
 
+	Position2D getPosition() const;
+
 private:
 	TilePtr m_tile;
 };

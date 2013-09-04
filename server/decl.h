@@ -4,6 +4,10 @@
 #include <memory>
 #include <list>
 #include <string>
+#include <stdint.h>
+
+#include <util/position.h>
+#include <util/scheduler.h>
 
 class Player;
 class Tile;

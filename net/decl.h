@@ -10,6 +10,7 @@ namespace asio = boost::asio;
 #include <string>
 #include <stdint.h>
 #include <stdlib.h>
+#include <stddef.h>
 
 class Connection;
 class Listener;

@@ -1,6 +1,8 @@
 #ifndef __CONNECTION_H
 #define __CONNECTION_H
 
+#include "decl.h"
+
 #include <list>
 
 class Connection
@@ -34,6 +36,7 @@ private:
 	std::function<void()> m_connectCallback;
 	ReadCallback m_readCallback;
 
+	asio::deadline_timer m_delayedWriteTimer;
 	asio::ip::tcp::socket m_socket;
 	asio::ip::tcp::resolver m_resolver;
 

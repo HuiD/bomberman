@@ -47,7 +47,7 @@ std::string InputMessage::getString()
 	if (!len)
 		return std::string();
 
-	if (m_pos + len > m_data.size())
+	if (m_pos + len > m_size)
 		return std::string();
 
 	std::string ret((char *)&m_data[m_pos], len);

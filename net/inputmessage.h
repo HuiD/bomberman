@@ -1,8 +1,7 @@
 #ifndef __INPUTMESSAGE_H
 #define __INPUTMESSAGE_H
 
-#include <stdint.h>
-#include <vector>
+#include "decl.h"
 
 class InputMessage
 {
@@ -16,7 +15,7 @@ public:
 	std::string getString();
 
 private:
-	std::vector<uint8_t> m_data;
+	uint8_t *m_data;
 	size_t m_size;
 	uint32_t m_pos;
 };

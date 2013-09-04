@@ -3,23 +3,20 @@
 
 #include "decl.h"
 
-class Listener :
-	public std::enable_shared_from_this<Listener>
+#include "connection.h"
+
+class Listener
 {
 	typedef std::function<void(const ConnectionPtr& )> AcceptCallback;
 
 public:
-	Listener();
+	Listener(const std::string& host, const std::string& port);
 	~Listener();
 
-	static void poll(int numWorkers);
+	static void poll();
 	void start(const AcceptCallback& ac);
 
 protected:
-	void handleConnection(const boost::system::error_code& e);
-
-	AcceptCallback m_acceptCallback;
-	ConnectionPtr m_connection;
 	asio::ip::tcp::acceptor m_acceptor;
 };
 

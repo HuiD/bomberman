@@ -9,6 +9,7 @@ public:
 	Item();
 	~Item();
 
+	bool blocksPath() const { return false; }
 };
 
 #endif

@@ -3,6 +3,8 @@
 
 #include "decl.h"
 
+#include <vector>
+
 class OutputMessage
 {
 public:
@@ -14,7 +16,7 @@ public:
 	void addU32(uint32_t val);
 	void addString(const std::string& str);
 
-	uint8_t *data() const { return &m_data[0]; }
+	const uint8_t *data() const { return &m_data[0]; }
 
 private:
 	std::vector<uint8_t> m_data;

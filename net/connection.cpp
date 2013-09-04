@@ -1,11 +1,11 @@
 #include "connection.h"
 
 extern asio::io_service g_service;
+std::list<std::shared_ptr<asio::streambuf>> Connection::m_outputStreams;
 
 Connection::Connection() :
+	m_delayedWriteTimer(g_service),
 	m_socket(g_service),
-	m_readStrand(g_service),
-	m_writeStrand(g_service),
 	m_resolver(g_service)
 {
 
@@ -55,7 +55,7 @@ void Connection::write(uint8_t *bytes, uint16_t size)
 	os.flush();
 }
 
-void read(uint16_t bytes, const ReadCallback& rc)
+void Connection::read(uint16_t bytes, const ReadCallback& rc)
 {
 	m_readCallback = rc;
 
@@ -76,18 +76,18 @@ void Connection::internalWrite(const boost::system::error_code& e)
 	asio::async_write(m_socket,
 			   *outputStream,
 			   std::bind(&Connection::handleWrite, shared_from_this(),
-				   std::placeholders::_1, std::placeholders::_2));
+				   std::placeholders::_1, std::placeholders::_2, outputStream));
 }
 
 void Connection::handleResolve(const boost::system::error_code& e, asio::ip::basic_resolver<asio::ip::tcp>::iterator endpointIter)
 {
-	if (error == asio::error::operation_aborted)
+	if (e == asio::error::operation_aborted)
 		return;
 
-	if (!error)
-		m_socket.async_connect(*iter, std::bind(&Connection::handleConnect, shared_from_this(), std::placeholders::_1));
+	if (!e)
+		m_socket.async_connect(*endpointIter, std::bind(&Connection::handleConnect, shared_from_this(), std::placeholders::_1));
 	else
-		handleError(error);
+		handleError(e);
 }
 
 void Connection::handleConnect(const boost::system::error_code& e)
@@ -115,6 +115,7 @@ void Connection::handleError(const boost::system::error_code& error)
 void Connection::handleWrite(const boost::system::error_code& e, size_t size,
 				std::shared_ptr<asio::streambuf> outputStream)
 {
+	m_delayedWriteTimer.cancel();
 	if (e == asio::error::operation_aborted)
 		return;
 
@@ -131,8 +132,8 @@ void Connection::handleRead(const boost::system::error_code& e, size_t readSize)
 
 	if (!e) {
 		if (m_readCallback) {
-			const char *data = asio::buffer_cast<const char *>(m_intputStream.data());
-			m_readCAllback((uint8_t *)data, readSize);
+			const char *data = asio::buffer_cast<const char *>(m_inputStream.data());
+			m_readCallback((uint8_t *)data, readSize);
 		}
 
 		m_inputStream.consume(readSize);

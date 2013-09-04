@@ -26,6 +26,7 @@
 #include <functional>
 #include <condition_variable>
 #include <list>
+#include <vector>
 #include <chrono>
 
 typedef std::function<void ()> EventFunc;
