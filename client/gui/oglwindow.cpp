@@ -8,7 +8,7 @@ BEGIN_EVENT_TABLE(OpenGLWindow, wxGLCanvas)
 	EVT_SIZE(OpenGLWindow::OnResize)
 END_EVENT_TABLE()
 
-static const int32_t attribList[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 32};
+static const int32_t attribList[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 32, 0};
 OpenGLWindow::OpenGLWindow(wxWindow* parent, const wxString& title) :
 	wxGLCanvas(parent, wxID_ANY, attribList, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE, title, wxNullPalette),
 	m_boundContext(nullptr),
