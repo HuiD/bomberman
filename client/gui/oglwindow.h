@@ -2,7 +2,15 @@
 #ifndef __OGL_WINDOW_HPP__
 #define __OGL_WINDOW_HPP__
 
+#include <functional>
 #include "oglcontext.h"
+
+enum RenderFlags
+{
+	RenderFlag_None = 0,
+	RenderFlag_Initialize = 1,
+	RenderFlag_Resize = 2
+};
 
 class OpenGLWindow : public wxGLCanvas
 {
@@ -11,6 +19,7 @@ class OpenGLWindow : public wxGLCanvas
 		~OpenGLWindow();
 
 		void OnPaint(wxPaintEvent& event);
+		void OnResize(wxSizeEvent& event);
 
 	protected:
 		DECLARE_EVENT_TABLE()
@@ -18,6 +27,9 @@ class OpenGLWindow : public wxGLCanvas
 
 	private:
 		OpenGLContext* m_boundContext;
+		std::function<void()> m_renderFunction;
+		uint32_t m_renderFlags;
+
 		friend class OpenGLContext;
 };
 

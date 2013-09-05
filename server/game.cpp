@@ -16,7 +16,7 @@ Game::~Game()
 
 PlayerPtr Game::getPlayer(uint32_t playerId)
 {
-	for (uint i = 0; i < MAX_GAME_PLAYERS; ++i)
+	for (uint32_t i = 0; i < MAX_GAME_PLAYERS; ++i)
 		if (m_players[i]->getID() == playerId)
 			return m_players[i];
 	return nullptr;

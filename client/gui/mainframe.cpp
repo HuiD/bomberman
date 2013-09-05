@@ -17,6 +17,13 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	SetAutoLayout(true);
 }
 
+MainFrame::~MainFrame()
+{
+	if (m_openGLContext) {
+		delete m_openGLContext;
+	}
+}
+
 void MainFrame::OnStart()
 {
 	m_openGLContext = new OpenGLContext(m_openGLWindow);
