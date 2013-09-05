@@ -17,6 +17,14 @@ InputMessage::InputMessage(uint8_t *data, size_t size) :
 {
 }
 
+InputMessage::InputMessage() :
+	m_data(nullptr),
+	m_size(0),
+	m_pos(0)
+{
+
+}
+
 InputMessage::~InputMessage()
 {
 

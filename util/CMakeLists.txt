@@ -22,7 +22,7 @@
 set(util_LIBRARIES "")
 set(util_DEFINITIONS "")
 set(util_SOURCES ${util_SOURCES}
+	${CMAKE_CURRENT_LIST_DIR}/logger.cpp
 	${CMAKE_CURRENT_LIST_DIR}/scheduler.cpp
 )
 
-include_directories(${util_INCLUDE_DIRS})

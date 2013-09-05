@@ -19,34 +19,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-set(net_LIBRARIES "")
-set(net_DEFINITIONS "")
-set(net_SOURCES ${net_SOURCES}
-	${CMAKE_CURRENT_LIST_DIR}/connection.cpp
-	${CMAKE_CURRENT_LIST_DIR}/listener.cpp
-	${CMAKE_CURRENT_LIST_DIR}/inputmessage.cpp
-	${CMAKE_CURRENT_LIST_DIR}/outputmessage.cpp
-	${CMAKE_CURRENT_LIST_DIR}/protocol.cpp
-	${CMAKE_CURRENT_LIST_DIR}/protocolchat.cpp
+set(client_LIBRARIES "")
+set(client_DEFINITIONS "")
+set(client_SOURCES ${client_SOURCES}
+	# GUI
+	${CMAKE_CURRENT_LIST_DIR}/gui/oglwindow.cpp
+	${CMAKE_CURRENT_LIST_DIR}/gui/oglcontext.cpp
+	${CMAKE_CURRENT_LIST_DIR}/gui/mainframe.cpp
+	${CMAKE_CURRENT_LIST_DIR}/gui/mainapp.cpp
 )
 
-set(REQUIRED_BOOST_COMPONENTS system)
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_LIBS ${USE_STATIC_LIBS})
-find_package(Boost COMPONENTS ${REQUIRED_BOOST_COMPONENTS} REQUIRED)
+#find_package(wxWidgets 2.9 REQUIRED COMPONENTS core base opengl)
+#include("${wxWidgets_USE_FILE}")
 
-set(net_LIBRARIES ${net_LIBRARIES}
-	${Boost_LIBRARIES}
-)
-set(net_INCLUDE_DIRS ${net_INCLUDE_DIRS}
-	${Boost_INCLUDE_DIRS}
-)
-
-if(WIN32)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mthreads")
-	set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -Wl,--large-address-aware")
-	set(net_LIBRARIES "${net_LIBRARIES} -lws2_32")
-else()
-	set(net_LIBRARIES ${net_LIBRARIES} -pthread)
-endif()
-
+set(client_LIBRARIES ${client_LIBRARIES}
+	${wxWidgets_LIBRARIES})

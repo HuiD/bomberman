@@ -7,7 +7,11 @@ class InputMessage
 {
 public:
 	InputMessage(uint8_t *data, size_t size);
+	InputMessage();
 	~InputMessage();
+
+	void setData(uint8_t *d) { m_data = d; }
+	void setSize(size_t size) { m_size = size; }
 
 	uint8_t getByte();
 	uint16_t getU16();

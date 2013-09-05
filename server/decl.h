@@ -1,10 +1,7 @@
 #ifndef __DECL_H
 #define __DECL_H
 
-#include <memory>
-#include <list>
-#include <string>
-#include <stdint.h>
+#include "../decl.h"
 
 #include "../util/position.h"
 #include "../util/scheduler.h"

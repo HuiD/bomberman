@@ -4,8 +4,6 @@
 #include "decl.h"
 #include <vector>
 
-#define DATA_SIZE 10240
-
 class OutputMessage
 {
 public:

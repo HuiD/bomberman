@@ -43,7 +43,9 @@ void Tile::addItem(const ItemPtr& item)
 
 bool Tile::canAdd(const PlayerPtr& player) const
 {
-	if (!m_player)
+	// If there's already a player on this, don't do anything.
+	// We can't stack up 2 players on the same tile.
+	if (m_player)
 		return false;
 
 	for (const ItemPtr& i : m_items)
