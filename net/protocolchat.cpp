@@ -11,6 +11,23 @@ ProtocolChat::~ProtocolChat()
 
 }
 
+void ProtocolChat::setNick(const std::string& nick)
+{
+	if (m_nick == nick)
+		return;
+
+	if (m_nickChangeCallback)
+		m_nickChangeCallback(m_nick, nick);
+	m_nick = nick;
+
+	OutputMessage out;
+
+	out.addByte(NET_CHAT_NICKCHANGE);
+	out.addString(nick);
+
+	send(out);
+}
+
 void ProtocolChat::connect(const std::string& host, const std::string& port)
 {
 	m_conn = ConnectionPtr(new Connection);
@@ -24,18 +41,6 @@ void ProtocolChat::disconnect()
 	m_conn.reset();
 }
 
-void ProtocolChat::send(const std::string& message)
-{
-	if (!m_conn)
-		return;
-
-	OutputMessage msg;
-	msg.addByte(NET_CHAT_MESSAGE);
-	msg.addString(message);
-
-	m_conn->write(msg.data(), msg.size());
-}
-
 void ProtocolChat::recv()
 {
 	if (m_conn)
@@ -44,7 +49,7 @@ void ProtocolChat::recv()
 					in.setData(data);
 					in.setSize(size);
 
-					onRead(in);
+					onRead(in.getByte(), in);
 				});
 }
 
@@ -55,12 +60,32 @@ void ProtocolChat::onConnect()
 	out.addByte(NET_CHAT_WELCOME);
 	out.addString("Welcome to the Chat Server");
 
-	m_conn->write(out.data(), out.size());
+	send(out);
 	recv();
 }
 
-void ProtocolChat::onRead(const InputMessage& in)
+void ProtocolChat::onRead(uint8_t byte, InputMessage in)
 {
+	switch (byte) {
+		case NET_CHAT_MESSAGE: {
+			std::string message = in.getString();
+			if (m_messageCallback)
+				m_messageCallback(m_nick, message);
+			break;
+		}
+		case NET_CHAT_NICKCHANGE:
+			setNick(in.getString());
+			break;
+		case NET_CHAT_LEAVE:
+			if (m_leaveCallback)
+				m_leaveCallback();
+			disconnect();
+			break;
+		default:
+			g_logger.warning("invalid byte sent for chat");
+			break;
+	}
 
+	Protocol::onRead(byte, in);
 }
 

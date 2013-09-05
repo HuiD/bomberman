@@ -1,4 +1,5 @@
 #include "protocol.h"
+#include "protocolbytes.h"
 
 Protocol::Protocol() :
 	m_conn(nullptr)
@@ -32,25 +33,18 @@ void Protocol::send(const OutputMessage& out)
 	m_conn->write(out.data(), out.size());
 }
 
-void Protocol::recv()
-{
-	if (m_conn)
-		m_conn->read(DATA_SIZE, [=](uint8_t *data, uint16_t size) {
-						InputMessage in;
-
-						in.setSize(size);
-						in.setData(data);
-						onRead(in);
-					});
-}
-
 void Protocol::onConnect()
 {
 	recv();
 }
 
-void Protocol::onRead(const InputMessage& in)
+void Protocol::onRead(uint8_t byte, InputMessage in)
 {
-
+	switch (byte) {
+		case NET_PONG:
+			break;
+		default:
+			break;
+	}
 }
 

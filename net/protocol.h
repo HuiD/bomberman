@@ -21,11 +21,11 @@ public:
 	void setConnection(const ConnectionPtr& c) { m_conn = c; }
 
 	virtual void send(const OutputMessage& out);
-	virtual void recv();
+	virtual void recv() = 0;
 
 protected:
 	virtual void onConnect();
-	virtual void onRead(const InputMessage& in);
+	virtual void onRead(uint8_t byte, InputMessage in);
 
 private:
 	ConnectionPtr m_conn;

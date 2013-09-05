@@ -47,11 +47,16 @@ endif()
 add_definitions(${bomberman_DEFINITIONS})
 include(net/CMakeLists.txt)
 include(util/CMakeLists.txt)
+include(client/CMakeLists.txt)
 include(server/CMakeLists.txt)
 
-#add_executable(client ${client_SOURCES} ${net_SOURCES} ${util_SOURCES})
-#target_link_libraries(client ${net_LIBRARIES})
+add_library(framework STATIC ${util_SOURCES} ${net_SOURCES})
+target_link_libraries(framework ${net_LIBRARIES})
 
-add_executable(server ${util_SOURCES} ${net_SOURCES} ${server_SOURCES})
-target_link_libraries(server ${net_LIBRARIES})
+add_executable(server ${server_SOURCES})
+target_link_libraries(server framework)
+
+add_executable(client ${client_SOURCES})
+target_link_libraries(client ${client_LIBRARIES} framework)
+
 

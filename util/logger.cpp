@@ -4,6 +4,15 @@
 
 Logger g_logger;
 
+void Logger::setLogFile(const std::string& file)
+{
+	m_outFile.open(file.c_str(), std::ios::out | std::ios::app);
+	if (!m_outFile.is_open() || !m_outFile.good())
+		g_logger.error("unable to save log to " + file);
+	else
+		m_outFile.flush();
+}
+
 void Logger::log(Logger::LogType type, const std::string& message)
 {
 #ifdef NDEBUG

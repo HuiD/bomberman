@@ -29,8 +29,13 @@ set(client_SOURCES ${client_SOURCES}
 	${CMAKE_CURRENT_LIST_DIR}/gui/mainapp.cpp
 )
 
-#find_package(wxWidgets 2.9 REQUIRED COMPONENTS core base opengl)
-#include("${wxWidgets_USE_FILE}")
+find_package(wxWidgets REQUIRED COMPONENTS core base gl)
+include("${wxWidgets_USE_FILE}")
+
+find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
 
 set(client_LIBRARIES ${client_LIBRARIES}
-	${wxWidgets_LIBRARIES})
+	${wxWidgets_LIBRARIES}
+	${OPENGL_LIBRARIES}
+	${GLEW_LIBRARY})
