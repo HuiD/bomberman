@@ -1,5 +1,6 @@
 
 // Included files
+#include <wx/dcbuffer.h>
 #include "oglwindow.h"
 #include "oglcontext.h"
 
@@ -8,13 +9,18 @@ BEGIN_EVENT_TABLE(OpenGLWindow, wxGLCanvas)
 	EVT_SIZE(OpenGLWindow::OnResize)
 END_EVENT_TABLE()
 
+#ifdef _WIN32
 static const int32_t attribList[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 32, 0};
+#else
+static const int32_t attribList[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 16, 0};
+#endif
 OpenGLWindow::OpenGLWindow(wxWindow* parent, const wxString& title) :
 	wxGLCanvas(parent, wxID_ANY, attribList, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE, title, wxNullPalette),
 	m_boundContext(nullptr),
 	m_renderFunction(nullptr),
 	m_renderFlags(RenderFlag_Initialize)
 {
+	SetBackgroundStyle(wxBG_STYLE_PAINT);
 	m_renderFunction = [this](){ Render(); };
 }
 
@@ -29,7 +35,7 @@ void OpenGLWindow::OnPaint(wxPaintEvent& WXUNUSED(event))
 		return;
 	}
 
-	wxPaintDC(this);
+	wxAutoBufferedPaintDC(this);
 	if (m_renderFunction) {
 		m_renderFunction();
 	}

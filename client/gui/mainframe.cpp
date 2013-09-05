@@ -8,7 +8,6 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	m_openGLContext(nullptr)
 {
 	m_openGLWindow = new OpenGLWindow(this, _("OpenGLWindow"));
-
 	SetSizer(new wxBoxSizer(wxHORIZONTAL));
 	SetAutoLayout(true);
 }
@@ -22,7 +21,9 @@ MainFrame::~MainFrame()
 
 void MainFrame::OnStart()
 {
-	GetSizer()->Add(m_openGLWindow, wxSizerFlags(1).Expand());
+	wxSizer* sizer = GetSizer();
+	sizer->Add(m_openGLWindow, wxSizerFlags(1).Expand());
+	sizer->Layout();
 
 	m_openGLContext = new OpenGLContext(m_openGLWindow);
 	new wxButton(m_openGLWindow, wxID_ANY, "Test Button", wxPoint(50, 50), wxSize(100, 24));
