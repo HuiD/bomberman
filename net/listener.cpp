@@ -35,7 +35,7 @@ void Listener::start(const AcceptCallback& ac)
 	m_acceptor.async_accept(conn->m_socket,
 				[=] (const boost::system::error_code& error) {
 					if (error) {
-						std::cerr << "Error accepting connection: " << error.message() << std::endl;
+						g_logger.error(stdext::format("Error accepting connection: %s", error.message()));
 						return;
 					}
 

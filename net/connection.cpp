@@ -28,11 +28,16 @@ void Connection::connect(const std::string& host, const std::string& port,
 
 void Connection::close()
 {
+	if (!m_socket.is_open()) {
+		g_logger.error(stdext::format("Connection::close(): Called on an already closed connection!"));
+		return;
+	}
+
 	boost::system::error_code ec;
 
 	m_socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
 	if (ec)
-		std::cerr << "Failed to shutdown socket: " << ec.message();
+		g_logger.error(stdext::format("Failed to shutdown socket: %s", ec.message()));
 	m_socket.close();
 }
 
@@ -108,7 +113,7 @@ void Connection::handleError(const boost::system::error_code& error)
 	if (error == asio::error::operation_aborted)
 		return;
 
-	std::cerr << "Connection error: " << error.message() << ", closing..." << std::endl;
+	g_logger.error(stdext::format("Connection error: %s", error.message()));
 	close();
 }
 
