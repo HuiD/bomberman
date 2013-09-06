@@ -1,7 +1,5 @@
-#include "../net/connection.h"
-#include "../net/listener.h"
-#include "../net/protocolchat.h"
 #include "../util/configmanager.h"
+#include "chatserver.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,16 +9,9 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	ListenerPtr listener(new Listener("127.0.0.1", "6000"));
-
-	listener->start(
-		[=] (const ConnectionPtr& c) {
-			ProtocolChat pc;
-
-			pc.setConnection(c);
-		}
-	);
-	listener->poll();
+	ChatServer cs;
+	while (true)
+		cs.poll();
 
 	return 0;
 }

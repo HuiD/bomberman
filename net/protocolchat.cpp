@@ -16,16 +16,16 @@ void ProtocolChat::setNick(const std::string& nick)
 	if (m_nick == nick)
 		return;
 
-	if (m_nickChangeCallback)
-		m_nickChangeCallback(m_nick, nick);
-	m_nick = nick;
-
 	OutputMessage out;
 
 	out.addByte(NET_CHAT_NICKCHANGE);
-	out.addString(nick);
+	out.addString(nick); 		// New Nickname
+	out.addString(m_nick); 		// Old Nickname
 
 	send(out);
+	if (m_nickChangeCallback)
+		m_nickChangeCallback(m_nick, nick);
+	m_nick = nick;
 }
 
 void ProtocolChat::recv()
@@ -48,20 +48,28 @@ void ProtocolChat::onRead(uint8_t byte, InputMessage in)
 {
 	switch (byte) {
 		case NET_CHAT_MESSAGE: {
+			std::string from = in.getString();
 			std::string message = in.getString();
+
 			if (m_messageCallback)
-				m_messageCallback(m_nick, message);
+				m_messageCallback(from, message);
 			break;
 		}
-		case NET_CHAT_NICKCHANGE:
-			setNick(in.getString());
+		case NET_CHAT_NICKCHANGE: {
+			std::string newNick = in.getString();
+			std::string oldNick = in.getString();
+
+			if (m_nickChangeCallback)
+				m_nickChangeCallback(oldNick, newNick);
 			break;
-		case NET_CHAT_LEAVE:
+		}
+		case NET_CHAT_LEAVE: {
+			std::string who = in.getString();
+
 			if (m_leaveCallback)
-				m_leaveCallback(m_nick);
-			disconnect();
+				m_leaveCallback(who);
 			break;
-		default:
+		} default:
 			g_logger.debug(stdext::format("Byte 0x%x not handled in the chat protocol", byte));
 			break;
 	}
