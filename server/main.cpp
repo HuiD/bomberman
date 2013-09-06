@@ -11,7 +11,8 @@ int main(int argc, char *argv[])
 			ProtocolChat pc;
 
 			pc.setConnection(c);
-	});
+		}
+	);
 	listener->poll();
 
 	return 0;

@@ -1,6 +1,5 @@
-
-// Included files
 #include <wx/dcbuffer.h>
+
 #include "oglwindow.h"
 #include "oglcontext.h"
 
@@ -10,9 +9,9 @@ BEGIN_EVENT_TABLE(OpenGLWindow, wxGLCanvas)
 END_EVENT_TABLE()
 
 #ifdef _WIN32
-static const int32_t attribList[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 32, 0};
+static constexpr int32_t attribList[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 32, 0};
 #else
-static const int32_t attribList[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 16, 0};
+static constexpr int32_t attribList[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 16, 0};
 #endif
 
 OpenGLWindow::OpenGLWindow(wxWindow* parent, const wxString& title) :
@@ -32,14 +31,13 @@ OpenGLWindow::~OpenGLWindow()
 
 void OpenGLWindow::OnPaint(wxPaintEvent& WXUNUSED(event))
 {
-	if (!m_boundContext || !m_boundContext->bind(this)) {
+	if (!m_boundContext || !m_boundContext->bind(this))
 		return;
-	}
 
 	wxAutoBufferedPaintDC(this);
-	if (m_renderFunction) {
+	if (m_renderFunction)
 		m_renderFunction();
-	}
+
 	SwapBuffers();
 }
 
@@ -75,3 +73,4 @@ void OpenGLWindow::Render()
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
+

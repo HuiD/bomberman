@@ -1,6 +1,5 @@
-
-#ifndef __OGL_CONTEXT_HPP__
-#define __OGL_CONTEXT_HPP__
+#ifndef __OGL_CONTEXT_H
+#define __OGL_CONTEXT_H
 
 #include <map>
 
@@ -18,33 +17,33 @@ class OpenGLRenderBuffer;
 
 class OpenGLContext
 {
-	public:
-		OpenGLContext(OpenGLWindow* window, const OpenGLContext* sharedContext = nullptr);
-		~OpenGLContext();
+public:
+	OpenGLContext(OpenGLWindow* window, const OpenGLContext* sharedContext = nullptr);
+	~OpenGLContext();
 
-		static OpenGLContext* currentContext();
+	static OpenGLContext* currentContext();
 
-	public:
-		bool bind(OpenGLWindow* window);
+	bool bind(OpenGLWindow* window);
 
-		template<class T>
-		T* getTexture(GLenum type) {
-			return static_cast<T*>(m_texture[type]);
-		}
+	template<class T>
+	T* getTexture(GLenum type)
+	{
+		return static_cast<T*>(m_texture[type]);
+	}
 
-	private:
-		wxGLContext* m_context;
-		std::map<GLenum, OpenGLTexture*> m_texture;
+private:
+	wxGLContext* m_context;
+	std::map<GLenum, OpenGLTexture*> m_texture;
 
-		OpenGLVertexBuffer* m_vertexBuffer;
-		OpenGLIndexBuffer* m_indexBuffer;
-		OpenGLVertexArray* m_vertexArray;
-		OpenGLShaderProgram* m_shaderProgram;
-		OpenGLFrameBuffer *m_drawFrameBuffer, *m_readFrameBuffer;
-		OpenGLRenderBuffer* m_renderBuffer;
+	OpenGLVertexBuffer* m_vertexBuffer;
+	OpenGLIndexBuffer* m_indexBuffer;
+	OpenGLVertexArray* m_vertexArray;
+	OpenGLShaderProgram* m_shaderProgram;
+	OpenGLFrameBuffer *m_drawFrameBuffer, *m_readFrameBuffer;
+	OpenGLRenderBuffer* m_renderBuffer;
 
-	private:
-		static OpenGLContext* context;
+private:
+	static OpenGLContext* context;
 
 	friend class OpenGLVertexBuffer;
 	friend class OpenGLIndexBuffer;
@@ -64,4 +63,5 @@ class OpenGLContext
 	friend class OpenGLTexture3D;
 };
 
-#endif //__OGL_CONTEXT_HPP__
+#endif //__OGL_CONTEXT_H
+

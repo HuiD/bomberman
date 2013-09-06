@@ -6,9 +6,9 @@
 
 class MainApp : public wxApp
 {
-	public:
-		bool OnInit();
-		int32_t OnExit();
+public:
+	bool OnInit();
+	int32_t OnExit();
 };
 
 DECLARE_APP(MainApp)

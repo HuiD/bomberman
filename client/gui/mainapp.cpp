@@ -1,5 +1,3 @@
-
-// Included files
 #include "mainapp.h"
 #include "mainframe.h"
 
@@ -10,9 +8,8 @@ extern Scheduler g_sched;
 
 bool MainApp::OnInit()
 {
-	if (!wxApp::OnInit()) {
+	if (!wxApp::OnInit())
 		return false;
-	}
 
 	MainFrame* mainFrame = new MainFrame(
 		_("Bomberman"),
@@ -31,3 +28,4 @@ int MainApp::OnExit()
 	g_sched.stop();
 	return wxApp::OnExit();
 }
+

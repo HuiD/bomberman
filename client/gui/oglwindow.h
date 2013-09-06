@@ -1,6 +1,5 @@
-
-#ifndef __OGL_WINDOW_HPP__
-#define __OGL_WINDOW_HPP__
+#ifndef __OGL_WINDOW_H
+#define __OGL_WINDOW_H
 
 #include <functional>
 #include "oglcontext.h"
@@ -14,23 +13,23 @@ enum RenderFlags
 
 class OpenGLWindow : public wxGLCanvas
 {
-	public:
-		OpenGLWindow(wxWindow* parent, const wxString& title);
-		~OpenGLWindow();
+public:
+	OpenGLWindow(wxWindow* parent, const wxString& title);
+	~OpenGLWindow();
 
-		void OnPaint(wxPaintEvent& event);
-		void OnResize(wxSizeEvent& event);
+	void OnPaint(wxPaintEvent& event);
+	void OnResize(wxSizeEvent& event);
 
-	protected:
-		DECLARE_EVENT_TABLE()
-		void Render();
+protected:
+	DECLARE_EVENT_TABLE()
+	void Render();
 
-	private:
-		OpenGLContext* m_boundContext;
-		std::function<void()> m_renderFunction;
-		uint32_t m_renderFlags;
+private:
+	OpenGLContext* m_boundContext;
+	std::function<void()> m_renderFunction;
+	uint32_t m_renderFlags;
 
-		friend class OpenGLContext;
+	friend class OpenGLContext;
 };
 
-#endif //__OGL_WINDOW_HPP__
+#endif //__OGL_WINDOW_H

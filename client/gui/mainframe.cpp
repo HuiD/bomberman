@@ -13,9 +13,8 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 
 MainFrame::~MainFrame()
 {
-	if (m_openGLContext) {
+	if (m_openGLContext)
 		delete m_openGLContext;
-	}
 }
 
 void MainFrame::OnStart()
@@ -39,3 +38,4 @@ void MainFrame::OnStart()
 	m_openGLContext = new OpenGLContext(m_openGLWindow);
 	m_openGLWindow->Refresh(false);
 }
+
