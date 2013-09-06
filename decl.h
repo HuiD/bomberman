@@ -21,6 +21,7 @@
 
 #include "util/logger.h"
 #include "util/format.h"
+#include "util/configmanager.h"
 
 #ifdef _MSC_VER
 #pragma warning(disable:4800)

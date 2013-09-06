@@ -25,7 +25,6 @@ void MainFrame::OnStart()
 	m_openGLWindow = new OpenGLWindow(panel, _("OpenGLWindow"));
 	new wxButton(m_openGLWindow, wxID_ANY, "Test Button", wxPoint(50, 50), wxSize(100, 24));
 
-
 	wxSizer *panelSizer = panel->GetSizer();
 	panelSizer->Add(m_openGLWindow, wxSizerFlags(1).Expand());
 	panelSizer->Layout();
