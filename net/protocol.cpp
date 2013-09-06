@@ -12,12 +12,6 @@ Protocol::~Protocol()
 
 }
 
-void Protocol::connect(const std::string& host, const std::string& port)
-{
-	m_conn = ConnectionPtr(new Connection());
-	m_conn->connect(host, port, std::bind(&Protocol::onConnect, this));
-}
-
 void Protocol::disconnect()
 {
 	if (m_conn)
@@ -33,18 +27,22 @@ void Protocol::send(const OutputMessage& out)
 	m_conn->write(out.data(), out.size());
 }
 
-void Protocol::onConnect()
+void Protocol::readBytes(size_t size, const std::function<void(uint8_t, InputMessage)>& cb)
 {
-	recv();
+	m_conn->read(size,
+		[=] (uint8_t *data, uint16_t size) {
+			InputMessage in;
+			in.setData(data);
+			in.setSize(size);
+
+			cb(in.getByte(), in);
+	});
 }
 
 void Protocol::onRead(uint8_t byte, InputMessage in)
 {
-	switch (byte) {
-		case NET_PONG:
-			break;
-		default:
-			break;
-	}
+	uint8_t tmp = NET_PONG;
+	if (byte == NET_PING)
+		m_conn->write(&tmp, 1);
 }
 

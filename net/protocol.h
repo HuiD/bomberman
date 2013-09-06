@@ -18,13 +18,20 @@ public:
 	void disconnect();
 
 	ConnectionPtr getConnection() const { return m_conn; }
-	void setConnection(const ConnectionPtr& c) { m_conn = c; }
+	void setConnection(const ConnectionPtr& c)
+	{
+		m_conn = c;
+		if (c)
+			onConnect();
+	}
 
 	virtual void send(const OutputMessage& out);
-	virtual void recv() = 0;
+	virtual void recv() =0;
+
+	void readBytes(size_t size, const std::function<void(uint8_t, InputMessage)>& cb);
 
 protected:
-	virtual void onConnect();
+	virtual void onConnect() = 0;
 	virtual void onRead(uint8_t byte, InputMessage in);
 
 private:

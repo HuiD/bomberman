@@ -3,13 +3,26 @@
 
 enum ProtocolBytes : uint8_t
 {
+	// Protocol Chat
 	NET_CHAT_WELCOME 	= 0x0A,
 	NET_CHAT_MESSAGE 	= 0x0B,
 	NET_CHAT_NICKCHANGE 	= 0x0C,
 	NET_CHAT_LEAVE 		= 0x0D,
 
+	// Generic
 	NET_PING 		= 0x0E,
-	NET_PONG 		= 0x0F
+	NET_PONG 		= 0x0F,
+	NET_MSG_STATUS 		= 0x10,
+	NET_MSG_ERROR 		= 0x11,
+
+	// Protocol Game
+	NET_GAME_WELCOME 	= 0x12,
+	NET_GAME_START 		= 0x13,
+	NET_GAME_CANCEL_START 	= 0x14,
+	NET_GAME_PLAYER_JOIN 	= 0x15,
+	NET_GAME_PLAYER_LEAVE 	= 0x16,
+	NET_GAME_PLAYER_DEAD  	= 0x17,
+	NET_GAME_FULL 		= 0x18,
 };
 
 #endif

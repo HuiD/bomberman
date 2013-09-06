@@ -28,29 +28,9 @@ void ProtocolChat::setNick(const std::string& nick)
 	send(out);
 }
 
-void ProtocolChat::connect(const std::string& host, const std::string& port)
-{
-	m_conn = ConnectionPtr(new Connection);
-	m_conn->connect(host, port, std::bind(&ProtocolChat::onConnect, this));
-}
-
-void ProtocolChat::disconnect()
-{
-	if (m_conn)
-		m_conn->close();
-	m_conn.reset();
-}
-
 void ProtocolChat::recv()
 {
-	if (m_conn)
-		m_conn->read(DATA_SIZE, [=] (uint8_t *data, uint16_t size) {
-					InputMessage in;
-					in.setData(data);
-					in.setSize(size);
-
-					onRead(in.getByte(), in);
-				});
+	readBytes(DATA_SIZE, std::bind(&ProtocolChat::onRead, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void ProtocolChat::onConnect()
@@ -78,14 +58,15 @@ void ProtocolChat::onRead(uint8_t byte, InputMessage in)
 			break;
 		case NET_CHAT_LEAVE:
 			if (m_leaveCallback)
-				m_leaveCallback();
+				m_leaveCallback(m_nick);
 			disconnect();
 			break;
 		default:
-			g_logger.warning("invalid byte sent for chat");
+			g_logger.debug(stdext::format("Byte 0x%x not handled in the chat protocol", byte));
 			break;
 	}
 
 	Protocol::onRead(byte, in);
+	recv();
 }
 

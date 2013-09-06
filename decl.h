@@ -20,6 +20,7 @@
 #include <boost/make_shared.hpp>
 
 #include "util/logger.h"
+#include "util/format.h"
 
 #ifdef _MSC_VER
 #pragma warning(disable:4800)

@@ -2,6 +2,7 @@
 #define __CONNECTION_H
 
 #include "decl.h"
+#include "outputmessage.h"
 
 #include <list>
 
@@ -18,6 +19,7 @@ public:
 	void close();
 	bool isConnected() const { return m_socket.is_open(); }
 
+	inline void send(const OutputMessage& o) { write(o.data(), o.size()); }
 	void write(const uint8_t *data, uint16_t bytes);
 	void read(uint16_t bytes, const ReadCallback& rc);
 

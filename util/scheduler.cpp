@@ -51,7 +51,7 @@ uint32_t Scheduler::scheduleEvent(const EventFunc& fun, int64_t delay, bool repe
 		return 0;
 
 	EventPtr event(new Event(fun, delay, repeated));
-	event->setID(m_lastId++);
+	event->setID(++m_lastId);
 	m_eventList.push_back(event);
 	m_condition.notify_one();
 	return event->getID();

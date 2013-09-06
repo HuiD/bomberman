@@ -5,16 +5,13 @@
 
 class ProtocolChat : public Protocol
 {
-	typedef std::function<void(const std::string& from, const std::string& message)> MessageCallback;
-	typedef std::function<void()> LeaveCallback;
+	typedef std::function<void(const std::string& nick, const std::string& message)> MessageCallback;
+	typedef std::function<void(const std::string& nick)> LeaveCallback;
 	typedef std::function<void(const std::string& oldNick, const std::string& newNick)> NickChangeCallback;
 
 public:
 	ProtocolChat();
 	~ProtocolChat();
-
-	void connect(const std::string& host, const std::string& port);
-	void disconnect();
 
 	std::string getNick() const { return m_nick; }
 	void setNick(const std::string& userName);
@@ -31,7 +28,7 @@ protected:
 
 private:
 	std::string m_nick;
-	ConnectionPtr m_conn;
+
 	MessageCallback m_messageCallback;
 	LeaveCallback m_leaveCallback;
 	NickChangeCallback m_nickChangeCallback;
