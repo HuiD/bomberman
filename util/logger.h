@@ -7,11 +7,11 @@
 class Logger
 {
 	enum LogType {
-		Debug,
-		Error,
-		Warning,
-		Fatal,
-		Information
+		Debug 		= 0,
+		Error 		= 1,
+		Warning  	= 2,
+		Fatal 		= 3,
+		Information 	= 4
 	};
 
 	void log(LogType type, const std::string& message);

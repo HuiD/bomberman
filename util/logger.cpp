@@ -20,7 +20,7 @@ void Logger::log(Logger::LogType type, const std::string& message)
 		return;
 #endif
 
-	static const std::string logPrefixes[] = { "", "", "Warning: ", "Error: ", "Fatal error: " };
+	static const std::string logPrefixes[] = { "", "Error: ", "Warning: ", "Fatal error: ", "" };
 	std::string out = logPrefixes[type] + message;
 
 	std::clog << out << std::endl;
