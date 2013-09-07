@@ -8,46 +8,20 @@
 
 ConfigManager g_config;
 
-static char *strlwc(const char *s)
+static char *strtrim(char *str)
 {
-	static char line[512];
-	int i =0;
+	while (isspace(*str))
+		str++;
 
-	if (!s)
-		return NULL;
+	if (*str == '\0')
+		return str;
 
-	memset(line, 0, sizeof(line));
-	while (s[i] && i < 512) {
-		line[i] = tolower(s[i]);
-		i++;
-	}
-
-	line[512] = '\0';
-	return line;
-}
-
-static char *strstrip(char *s)
-{
-	static char line[512];
-	char *end;
-
-	if (!s)
-		return NULL;
-
-	while (isspace(*s) && *s)
-		s++;
-
-	strncpy(line, s, sizeof(line));
-	end = line + strlen(line);
-	while (end > line) {
-		if (!isspace(*(end - 1)))
-			break;
-
+	char *end = str + strlen(str) - 1;
+	while (end > str && isspace(*end))
 		end--;
-	}
 
-	*end = '\0';
-	return line;
+	*(end + 1) = '\0';
+	return str;
 }
 
 ConfigManager::ConfigManager()
@@ -67,15 +41,20 @@ bool ConfigManager::loadFrom(const std::string& file)
 		return false;
 
 	int currentLine = 0;
-	char buffer[MAX_BUFFER_LEN];
+	char buffer[MAX_BUFFER_LEN], *p;
 
 	while (fgets(buffer, sizeof(buffer), fp)) {
 		++currentLine;
-		if (*buffer == '#')
+
+		p = buffer;
+		while (isspace(*p))
+			p++;
+
+		if (*p == '\0' || *p == '#')
 			continue;
 
-		auto parsed = parseLine(buffer);
-		if (parsed.first.empty() || parsed.second.empty()) {
+		auto parsed = parseLine(p);
+		if (parsed.first.empty()) {
 			g_logger.error(stdext::format("Failed to parse key=val from line %d, escaping...", currentLine));
 			continue;
 		}
@@ -106,28 +85,21 @@ std::pair<std::string, std::string> ConfigManager::parseLine(const std::string& 
 	/* Hacked off somewhere on the interwebs.  */
 	const char *val = input.c_str();
 	char key[MAX_KEY_LEN], value[MAX_VALUE_LEN];
-	std::pair<std::string, std::string> ret;
 
-	if (    sscanf (val, "%[^=] = \"%[^\"]\"", key, value) == 2
-	    ||  sscanf (val, "%[^=] = '%[^\']'",   key, value) == 2
-	    ||  sscanf (val, "%[^=] = %[^;#]",     key, value) == 2) {
-		strcpy(key, strstrip(key));
-		strcpy(key, strlwc(key));
-		strcpy(value, strstrip(value));
-
-		if (!strcmp(value, "\"\"") || !strcmp(value, "''"))
-			value[0] = '\0';
+	if (    sscanf(val, "%[^=] = \"%[^\"]\"", key, value) == 2
+	    ||  sscanf(val, "%[^=] = '%[^\']'",   key, value) == 2
+	    ||  sscanf(val, "%[^=] = %[^;#]",     key, value) == 2) {
+		;
 	} else if (sscanf(val, "%[^=] = %[;#]", key, value) == 2 
-		  ||  sscanf(val, "%[^=] %[=]", key, value) == 2) {
-		strcpy(key, strstrip(key));
-		strcpy(key, strlwc(key));
+		||  sscanf(val, "%[^=] %[=]", key, value) == 2) {
 		value[0] = '\0';
-
 	}
 
-	if (!strcmp(value, "\"\""))
-		memset(value, '\0', sizeof value);
+	strcpy(key, strtrim(key));
+	strcpy(value, strtrim(value));
+	if (!strcmp(value, "\"\"") || !strcmp(value, "''"))
+		value[0] = '\0';
 
-	return std::make_pair(key, value);
+	return std::make_pair(strtrim(key), strtrim(value));
 }
 
