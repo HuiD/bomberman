@@ -11,10 +11,18 @@ public:
 	~OutputMessage();
 
 	template<typename T>
-	void add(T value) {
+	void add(T value)
+	{
 		*reinterpret_cast<T*>(&m_data + m_pos) = value;
 		m_pos += sizeof(T);
 		m_size += sizeof(T);
+	}
+	void clear() {
+		std::array<uint8_t, DATA_SIZE> tmp;
+
+		m_data.swap(tmp);
+		m_size = 0;
+		m_pos = 0;
 	}
 
 	void addByte(uint8_t byte);

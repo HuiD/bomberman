@@ -8,7 +8,7 @@ class ProtocolChat : public Protocol
 	typedef std::function<void(const std::string& nick, const std::string& message)> MessageCallback;
 	typedef std::function<void(const std::string& nick)> LeaveCallback;
 	typedef std::function<void(const std::string& oldNick, const std::string& newNick)> NickChangeCallback;
-	typedef std::function<void(const std::string& who, const std::string& gameName)> JoinCallback;
+	typedef std::function<void(const std::string& who, const std::string& gameName, bool disconnectFromChat)> JoinCallback;
 
 public:
 	ProtocolChat();

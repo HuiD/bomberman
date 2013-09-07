@@ -17,7 +17,7 @@ protected:
 	void onNickChange(const std::string& oldNick, const std::string& newNick);
 	void onLeave(const std::string& who);
 	void onMessage(const std::string& from, const std::string& message);
-	void onJoin(const std::string& who, const std::string& gameName);
+	void onJoin(const std::string& who, const std::string& gameName, bool dc);
 
 	ProtocolChatPtr findConnection(const std::string& nick) const;
 

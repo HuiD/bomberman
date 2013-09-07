@@ -12,7 +12,7 @@ public:
 	~ProtocolGame();
 
 	void disconnect(uint8_t reason);
-	void setByteHandle(const ByteHandler& bh);
+	void setByteHandler(const ByteHandler& bh) { m_byteHandler = bh; }
 	void recv();
 	void sendPing();
 

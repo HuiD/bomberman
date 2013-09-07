@@ -33,7 +33,7 @@ void ChatServer::newConnection(const ConnectionPtr& c)
 	pc->setMessageCallback(std::bind(&ChatServer::onMessage, this, std::placeholders::_1, std::placeholders::_2));
 	pc->setNickChangeCallback(std::bind(&ChatServer::onNickChange, this, std::placeholders::_1, std::placeholders::_2));
 	pc->setLeaveCallback(std::bind(&ChatServer::onLeave, this, std::placeholders::_1));
-	pc->setJoinCallback(std::bind(&ChatServer::onJoin, this, std::placeholders::_1, std::placeholders::_2));
+	pc->setJoinCallback(std::bind(&ChatServer::onJoin, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
 	m_connections.push_back(pc);
 }
@@ -92,7 +92,7 @@ void ChatServer::onNickChange(const std::string& oldNick, const std::string& new
 	pc->__setNick(newNick);
 }
 
-void ChatServer::onJoin(const std::string& nick, const std::string& gameName)
+void ChatServer::onJoin(const std::string& nick, const std::string& gameName, bool disconnectFromChat)
 {
 	const ProtocolChatPtr& pc = findConnection(nick);
 	if (!pc) {
@@ -106,9 +106,19 @@ void ChatServer::onJoin(const std::string& nick, const std::string& gameName)
 	out.addByte(NET_CHAT_JOINGAME);
 	out.addString(nick);
 	out.addString(gameName);
+	out.addByte(disconnectFromChat);
 
 	for (const ProtocolChatPtr& __pc : m_connections)
 		if (__pc != pc)
 			__pc->send(out);
+
+	if (disconnectFromChat) {
+		out.clear();
+
+		out.addByte(NET_CHAT_LEAVE);
+		out.addString(nick);
+
+		pc->send(out);
+	}
 }
 

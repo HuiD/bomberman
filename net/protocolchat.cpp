@@ -80,9 +80,12 @@ void ProtocolChat::onRead(uint8_t byte, InputMessage in)
 				m_leaveCallback(who);
 			break;
 		} case NET_CHAT_JOINGAME: {
+			std::string nick = in.getString();
 			std::string gameName = in.getString();
+			bool disconnectFromChat = in.getByte() != (char)0;
+
 			if (m_joinCallback)
-				m_joinCallback(getNick(), gameName);
+				m_joinCallback(nick, gameName, disconnectFromChat);
 			break;
 		} default:
 			g_logger.debug(stdext::format("Byte 0x%x not handled in the chat protocol", byte));
