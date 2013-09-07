@@ -115,7 +115,6 @@ std::pair<std::string, std::string> ConfigManager::parseLine(const std::string& 
 		strcpy(key, strlwc(key));
 		strcpy(value, strstrip(value));
 
-		ret = std::make_pair(key, value);
 		if (!strcmp(value, "\"\"") || !strcmp(value, "''"))
 			value[0] = '\0';
 	} else if (sscanf(val, "%[^=] = %[;#]", key, value) == 2 
@@ -124,9 +123,11 @@ std::pair<std::string, std::string> ConfigManager::parseLine(const std::string& 
 		strcpy(key, strlwc(key));
 		value[0] = '\0';
 
-		ret = std::make_pair(key, value);
 	}
 
-	return ret;
+	if (!strcmp(value, "\"\""))
+		memset(value, '\0', sizeof value);
+
+	return std::make_pair(key, value);
 }
 

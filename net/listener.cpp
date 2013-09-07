@@ -6,12 +6,21 @@
 asio::io_service g_service;
 
 Listener::Listener(const std::string& host, const std::string& port) :
+	m_closed(false),
 	m_acceptor(g_service)
 {
-	asio::ip::tcp::resolver res(g_service);
-	asio::ip::tcp::resolver::query query(host, port);
+	asio::ip::tcp::endpoint ep;
 
-	asio::ip::tcp::endpoint ep = *res.resolve(query);
+	if (host.empty()) {
+		asio::ip::tcp::endpoint _ep(asio::ip::tcp::v4(), atoi(port.c_str()));
+		ep = _ep;
+	} else {
+		asio::ip::tcp::resolver res(g_service);
+		asio::ip::tcp::resolver::query query(host, port);
+
+		ep = *res.resolve(query);
+	}
+
 	m_acceptor.open(ep.protocol());
 	m_acceptor.set_option(asio::ip::tcp::acceptor::reuse_address(true));
 	m_acceptor.bind(ep);
@@ -31,6 +40,9 @@ void Listener::poll()
 
 void Listener::start(const AcceptCallback& ac)
 {
+	if (m_closed)
+		return;
+
 	ConnectionPtr conn(new Connection());
 	m_acceptor.async_accept(conn->m_socket,
 				[=] (const boost::system::error_code& error) {

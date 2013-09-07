@@ -15,8 +15,10 @@ public:
 
 	static void poll();
 	void start(const AcceptCallback& ac);
+	void close() { m_closed = true; }
 
 protected:
+	bool m_closed;
 	asio::ip::tcp::acceptor m_acceptor;
 };
 

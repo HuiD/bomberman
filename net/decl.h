@@ -14,10 +14,12 @@ namespace asio = boost::asio;
 class Connection;
 class Listener;
 class ProtocolGame;
+class ProtocolChat;
 
 typedef std::shared_ptr<Connection> ConnectionPtr;
 typedef std::shared_ptr<Listener> ListenerPtr;
 typedef std::shared_ptr<ProtocolGame> ProtocolGamePtr;
+typedef std::shared_ptr<ProtocolChat> ProtocolChatPtr;
 
 #endif
 

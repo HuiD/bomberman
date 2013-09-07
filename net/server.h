@@ -2,8 +2,8 @@
 #define __BASE_SERVER_H
 
 #include "decl.h"
-#include "../net/connection.h"
-#include "../net/listener.h"
+#include "connection.h"
+#include "listener.h"
 
 class Server
 {
@@ -13,6 +13,9 @@ public:
 
 	ListenerPtr getListener() const { return m_listener; }
 	inline void poll() { m_listener->poll(); }
+
+	void start();
+	void closeTemporarily();
 
 protected:
 	virtual void newConnection(const ConnectionPtr& c) = 0;

@@ -10,6 +10,8 @@ int main(int argc, char *argv[])
 	}
 
 	ChatServer cs;
+
+	cs.start();
 	while (true)
 		cs.poll();
 

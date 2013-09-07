@@ -43,6 +43,9 @@ void Connection::close()
 
 void Connection::write(const uint8_t *bytes, uint16_t size)
 {
+	if (!isConnected())
+		return;
+
 	if (!m_outputStream) {
 		if (!m_outputStreams.empty()) {
 			m_outputStream = m_outputStreams.front();
@@ -62,10 +65,11 @@ void Connection::write(const uint8_t *bytes, uint16_t size)
 
 void Connection::read(uint16_t bytes, const ReadCallback& rc)
 {
-	m_readCallback = rc;
+	if (!isConnected())
+		return;
 
-	asio::async_read(m_socket,
-			 asio::buffer(m_inputStream.prepare(bytes)),
+	m_readCallback = rc;
+	m_socket.async_read_some(asio::buffer(m_inputStream.prepare(bytes)),
 			 std::bind(&Connection::handleRead, shared_from_this(),
 				 std::placeholders::_1, std::placeholders::_2));
 }
