@@ -14,6 +14,12 @@ public:
 
 protected:
 	void newConnection(const ConnectionPtr& c);
+	void onNickChange(const std::string& oldNick, const std::string& newNick);
+	void onLeave(const std::string& who);
+	void onMessage(const std::string& from, const std::string& message);
+	void onJoin(const std::string& who, const std::string& gameName);
+
+	ProtocolChatPtr findConnection(const std::string& nick) const;
 
 private:
 	std::list<std::string> m_admins;

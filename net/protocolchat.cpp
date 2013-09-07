@@ -28,6 +28,16 @@ void ProtocolChat::setNick(const std::string& nick)
 	m_nick = nick;
 }
 
+void ProtocolChat::__setNick(const std::string& nick)
+{
+	if (m_nick == nick)
+		return;
+
+	if (m_nickChangeCallback)
+		m_nickChangeCallback(m_nick, nick);
+	m_nick = nick;
+}
+
 void ProtocolChat::recv()
 {
 	readBytes(DATA_SIZE, std::bind(&ProtocolChat::onRead, this, std::placeholders::_1, std::placeholders::_2));
@@ -68,6 +78,11 @@ void ProtocolChat::onRead(uint8_t byte, InputMessage in)
 
 			if (m_leaveCallback)
 				m_leaveCallback(who);
+			break;
+		} case NET_CHAT_JOINGAME: {
+			std::string gameName = in.getString();
+			if (m_joinCallback)
+				m_joinCallback(getNick(), gameName);
 			break;
 		} default:
 			g_logger.debug(stdext::format("Byte 0x%x not handled in the chat protocol", byte));
