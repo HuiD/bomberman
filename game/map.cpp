@@ -87,7 +87,7 @@ bool Map::save(const std::string& filename)
 	file->writeU16(m_height);
 
 	int fpos = file->getWritePos();
-	file->seek(fpos + sizeof(uint16_t)); // we will go back later to add the tiles count.
+	file->setWritePos(fpos + sizeof(uint16_t)); // we will go back later to add the tiles count.
 
 	uint16_t tileCount;
 	for (const auto& pair : m_tileBlocks) {
