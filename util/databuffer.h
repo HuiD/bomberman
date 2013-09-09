@@ -19,9 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifndef DATABUFFER_H
 #define DATABUFFER_H
+
+#include "decl.h"
 
 template<class T>
 class DataBuffer
@@ -57,6 +58,7 @@ public:
 	inline const T& first() const { return m_buffer[0]; }
 	inline const T& operator[](uint i) const { return m_buffer[i]; }
 	inline T& operator[](uint i) { return m_buffer[i]; }
+	DataBuffer<T>& operator=(uint8_t *data) { m_buffer = data; return *this; }
 
 	inline void reserve(uint n)
 	{

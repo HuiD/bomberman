@@ -27,6 +27,10 @@ set(client_SOURCES ${client_SOURCES}
 	${CMAKE_CURRENT_LIST_DIR}/gui/oglcontext.cpp
 	${CMAKE_CURRENT_LIST_DIR}/gui/mainframe.cpp
 	${CMAKE_CURRENT_LIST_DIR}/gui/mainapp.cpp
+
+	# OpenGL
+	${CMAKE_CURRENT_LIST_DIR}/opengl/texture.cpp
+	${CMAKE_CURRENT_LIST_DIR}/opengl/texturemanager.cpp
 )
 
 find_package(wxWidgets REQUIRED COMPONENTS core base gl)
@@ -34,8 +38,12 @@ include("${wxWidgets_USE_FILE}")
 
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
+find_package(SOIL REQUIRED)
 
 set(client_LIBRARIES ${client_LIBRARIES}
 	${wxWidgets_LIBRARIES}
 	${OPENGL_LIBRARIES}
-	${GLEW_LIBRARY})
+	${GLEW_LIBRARY}
+	${SOIL_LIBRARY}
+)
+

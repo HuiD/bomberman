@@ -110,7 +110,7 @@ bool Map::save(const std::string& filename)
 	int fpos = file->getWritePos();
 	file->setWritePos(fpos + sizeof(uint16_t)); // we will go back later to add the tiles count.
 
-	uint16_t tileCount;
+	uint16_t tileCount = 0;
 	for (const auto& pair : m_tileBlocks) {
 		const TileBlock& block = pair.second;
 		for (const TilePtr& tile : block.getTiles()) {
@@ -126,7 +126,7 @@ bool Map::save(const std::string& filename)
 			// Write tile items
 			// ... but don't forget about the items count.
 			int currPos = file->getWritePos();
-			uint16_t itemCount;
+			uint16_t itemCount = 0;
 			file->seek(currPos + sizeof(uint16_t));
 
 			for (const ItemPtr& item : tile->getItems()) {
