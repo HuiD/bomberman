@@ -27,11 +27,11 @@ PlayerPtr Tile::getPlayer() const
 
 void Tile::setPlayer(const PlayerPtr& player)
 {
-	if (canAdd(player))
+	if (canHoldPlayers())
 		m_player = player;
 }
 
-ItemList Tile::getItems() const
+const ItemList& Tile::getItems() const
 {
 	return m_items;
 }
@@ -40,18 +40,4 @@ void Tile::addItem(const ItemPtr& item)
 {
 	m_items.push_back(item);
 }
-
-bool Tile::canAdd(const PlayerPtr& player) const
-{
-	// If there's already a player on this, don't do anything.
-	// We can't stack up 2 players on the same tile.
-	if (m_player)
-		return false;
-
-	for (const ItemPtr& i : m_items)
-		if (i->blocksPath())
-			return false;
-	return true;
-}
-
 

@@ -1,6 +1,7 @@
 #include "item.h"
 
-Item::Item()
+Item::Item(uint16_t id) :
+	m_id(id)
 {
 
 }

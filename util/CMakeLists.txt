@@ -25,5 +25,6 @@ set(util_SOURCES ${util_SOURCES}
 	${CMAKE_CURRENT_LIST_DIR}/logger.cpp
 	${CMAKE_CURRENT_LIST_DIR}/scheduler.cpp
 	${CMAKE_CURRENT_LIST_DIR}/configmanager.cpp
+	${CMAKE_CURRENT_LIST_DIR}/filestream.cpp
 )
 

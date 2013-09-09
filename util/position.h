@@ -39,7 +39,14 @@ public:
 	{
 		return x < p.x && y < p.y;
 	}
+	bool isValid() const { return x != 0 && y != 0; }
 };
+
+inline std::ostream& operator<<(std::ostream& os, const Position2D& pos)
+{
+	os << "Position2D(" << pos.x << ", " << pos.y << ")";
+	return os;
+}
 
 #endif
 

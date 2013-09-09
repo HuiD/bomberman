@@ -1,6 +1,5 @@
-
-#ifndef __MAIN_APP_H__
-#define __MAIN_APP_H__
+#ifndef __MAIN_APP_H
+#define __MAIN_APP_H
 
 #include "decl.h"
 
@@ -13,4 +12,5 @@ public:
 
 DECLARE_APP(MainApp)
 
-#endif //__MAIN_APP_H__
+#endif //__MAIN_APP_H
+

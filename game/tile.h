@@ -14,12 +14,14 @@ public:
 	PlayerPtr getPlayer() const;
 	void setPlayer(const PlayerPtr& player);
 
-	ItemList getItems() const;
+	const ItemList& getItems() const;
 	void addItem(const ItemPtr& item);
 
-	bool canAdd(const PlayerPtr& player) const;
+	bool canHoldPlayers() const { return m_canHoldPlayers; }
+	void setCanHoldPlayers(bool hold) { m_canHoldPlayers = hold; }
 
 private:
+	bool m_canHoldPlayers;
 	Position2D m_position;
 	PlayerPtr m_player;
 	ItemList m_items;
