@@ -49,6 +49,8 @@ public:
 	/// Load from cached texture file filename
 	bool loadFrom(const std::string& filename);
 
+	bool screenshot(const std::string& output, int x, int y, int width, int height);
+
 private:
 	std::list<TexturePtr> m_textures;
 };

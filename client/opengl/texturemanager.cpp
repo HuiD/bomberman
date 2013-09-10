@@ -23,6 +23,7 @@
 #include "../../util/filestream.h"
 
 #include <boost/filesystem.hpp>
+#include <SOIL/SOIL.h>
 
 TextureManager g_textures;
 
@@ -149,5 +150,10 @@ bool TextureManager::loadFrom(const std::string& filename)
 	}
 
 	return true;
+}
+
+bool TextureManager::screenshot(const std::string& output, int x, int y, int width, int height)
+{
+	return !!SOIL_save_screenshot(output.c_str(), SOIL_SAVE_TYPE_BMP, x, y, width, height);
 }
 

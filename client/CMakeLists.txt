@@ -31,6 +31,8 @@ set(client_SOURCES ${client_SOURCES}
 	# OpenGL
 	${CMAKE_CURRENT_LIST_DIR}/opengl/texture.cpp
 	${CMAKE_CURRENT_LIST_DIR}/opengl/texturemanager.cpp
+	${CMAKE_CURRENT_LIST_DIR}/opengl/shader.cpp
+	${CMAKE_CURRENT_LIST_DIR}/opengl/shaderprogram.cpp
 )
 
 find_package(wxWidgets REQUIRED COMPONENTS core base gl)
