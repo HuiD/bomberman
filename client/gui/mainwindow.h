@@ -25,14 +25,12 @@ public:
 	int height() const { return m_height; }
 	void resize(int width, int height);
 
-	void setVisible(bool visible);
 	void show();
 	void hide();
 	void poll();
 	void swapBuffers();
 
 	void setTitle(const std::string& tile);
-	void setFullScreen(bool full);
 	void setVerticalSync(bool enable);
 
 	void setRenderCallback(const RenderCallback& cb) { m_renderCallback = cb; }
@@ -40,8 +38,12 @@ public:
 	void setKeypressCallback(const KeyPressCallback& cb) { m_keyPressCallback = cb; }
 	void setWheelCallback(const WheelCallback& cb) { m_wheelCallback = cb; }
 
+	bool isClosed() const { return !m_window; }
 	bool isVisible() const { return m_visible; }
+	void setVisible(bool visible);
+
 	bool isFullscreen() const { return m_fullscreen; }
+	void setFullScreen(bool full);
 
 private:
 	int m_width;

@@ -56,6 +56,8 @@ void MainWindow::close()
 		SDL_DestroyRenderer(m_renderer);
 	if (m_window)
 		SDL_DestroyWindow(m_window);
+
+	m_window = nullptr;
 	SDL_Quit();
 }
 
