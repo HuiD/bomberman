@@ -23,10 +23,8 @@ set(client_LIBRARIES "")
 set(client_DEFINITIONS "")
 set(client_SOURCES ${client_SOURCES}
 	# GUI
-	${CMAKE_CURRENT_LIST_DIR}/gui/oglwindow.cpp
-	${CMAKE_CURRENT_LIST_DIR}/gui/oglcontext.cpp
-	${CMAKE_CURRENT_LIST_DIR}/gui/mainframe.cpp
-	${CMAKE_CURRENT_LIST_DIR}/gui/mainapp.cpp
+	${CMAKE_CURRENT_LIST_DIR}/gui/mainwindow.cpp
+	${CMAKE_CURRENT_LIST_DIR}/main.cpp
 
 	# OpenGL
 	${CMAKE_CURRENT_LIST_DIR}/opengl/texture.cpp
@@ -35,17 +33,17 @@ set(client_SOURCES ${client_SOURCES}
 	${CMAKE_CURRENT_LIST_DIR}/opengl/shaderprogram.cpp
 )
 
-find_package(wxWidgets REQUIRED COMPONENTS core base gl)
-include("${wxWidgets_USE_FILE}")
-
+find_package(SDL2 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(SOIL REQUIRED)
 
+include_directories(${SDL2_INCLUDE_DIR})
 set(client_LIBRARIES ${client_LIBRARIES}
 	${wxWidgets_LIBRARIES}
 	${OPENGL_LIBRARIES}
 	${GLEW_LIBRARY}
 	${SOIL_LIBRARY}
+	${SDL2_LIBRARY}
 )
 
