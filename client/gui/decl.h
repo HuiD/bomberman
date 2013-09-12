@@ -1,6 +1,7 @@
 #ifndef __GUI_DECL_H
 #define __GUI_DECL_H
 
+#include "../../decl.h"
 #include "../opengl/glinc.h"
 
 #include <glm/glm.hpp>

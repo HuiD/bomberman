@@ -98,7 +98,7 @@ void Scheduler::schedulerThread()
 				}
 			} else {
 				uniqueLock.lock();
-				m_eventList.erase(it++);
+				m_eventList.erase(it);
 				uniqueLock.unlock();
 			}
 		}

@@ -19,14 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+#ifndef GLINC_H
+#define GLINC_H
 
-
-#ifndef GLUTIL_H
-#define GLUTIL_H
-
-#if OPENGL_ES==2
+#if OPENGL_ES == 2
 #include <GLES2/gl2.h>
-#elif OPENGL_ES==1
+#elif OPENGL_ES == 1
 #include <GLES/gl.h>
 
 #define GL_FRAMEBUFFER                    0x8D40
@@ -108,3 +106,4 @@ inline void glDisableVertexAttribArray (GLuint index) { }
 #endif
 
 #endif
+

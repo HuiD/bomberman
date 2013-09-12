@@ -139,7 +139,7 @@ void Game::processGameStart(uint32_t playerId)
 	}
 
 	if (m_players.size() < MIN_GAME_PLAYERS) {
-		player->sendErrorMessage(stdext::format("Not enough players to start the game; players needed: ", MIN_GAME_PLAYERS));
+		player->sendErrorMessage(stdext::format("Not enough players to start the game; players needed: %d", MIN_GAME_PLAYERS));
 		return;
 	}
 
