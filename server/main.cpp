@@ -22,8 +22,12 @@
 #include "../util/configmanager.h"
 #include "chatserver.h"
 
+std::string g_progname;
+
 int main(int argc, char *argv[])
 {
+	g_progname = argv[0];
+
 	// Load configuration
 	if (!g_config.loadFrom("server.cfg")) {
 		g_logger.error(stdext::format("failed to load configuration from 'server.cfg'"));

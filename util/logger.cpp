@@ -3,6 +3,7 @@
 #include <iostream>
 
 Logger g_logger;
+extern std::string g_progname;
 
 void Logger::setLogFile(const std::string& file)
 {
@@ -23,13 +24,15 @@ void Logger::log(Logger::LogType type, const std::string& message)
 	static const std::string logPrefixes[] = { "", "Error: ", "Warning: ", "Fatal error: ", "" };
 	std::string out = logPrefixes[type] + message;
 
-	std::clog << out << std::endl;
+	std::clog << g_progname << ": " << out << std::endl;
 	if (m_outFile.good()) {
 		m_outFile << out << std::endl;
 		m_outFile.flush();
 	}
 
-	if (type == Logger::Fatal)
+	if (type == Logger::Fatal) {
+		std::cerr << g_progname << ": error is unrecoverable, terminating now..." << std::endl;
 		abort();
+	}
 }
 

@@ -12,7 +12,7 @@ public:
 	uint16_t getID() const { return m_id; }
 
 	std::string getTextureFile() const { return m_textureFile; }
-	bool loadTexture(const std::string& filename) { }
+	bool loadTexture(const std::string& filename) { return true; }
 
 private:
 	uint16_t m_id;
