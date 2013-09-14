@@ -28,7 +28,7 @@ std::string g_progname;
 int main(int argc, char *argv[])
 {
 	g_progname = argv[0];
-	g_logger.setLogFile(g_progname);
+	g_logger.setLogFile(g_progname .. ".log");
 
 	// Load configuration
 	if (!g_config.loadFrom("server.cfg")) {

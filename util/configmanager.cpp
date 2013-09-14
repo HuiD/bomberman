@@ -121,6 +121,6 @@ std::pair<std::string, std::string> ConfigManager::parseLine(const std::string& 
 	if (!strcmp(value, "\"\"") || !strcmp(value, "''"))
 		value[0] = '\0';
 
-	return std::make_pair(strtrim(key), strtrim(value));
+	return std::make_pair(key, value);
 }
 
