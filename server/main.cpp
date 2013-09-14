@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 #include "../util/configmanager.h"
+#include "../util/scheduler.h"
 #include "chatserver.h"
 
 std::string g_progname;
@@ -40,6 +41,7 @@ int main(int argc, char *argv[])
 	while (true)
 		cs.poll();
 
+	g_sched.stop();
 	return 0;
 }
 

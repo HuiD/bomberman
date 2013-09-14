@@ -12,7 +12,7 @@ public:
 	virtual ~Server();
 
 	ListenerPtr getListener() const { return m_listener; }
-	inline void poll() { m_listener->poll(); }
+	inline void poll() { Connection::poll(); }
 
 	void start();
 	void closeTemporarily();

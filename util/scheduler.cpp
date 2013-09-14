@@ -95,7 +95,8 @@ void Scheduler::schedulerThread()
 					m_eventList.erase(it++);
 					m_eventIds.erase(iter);
 					uniqueLock.unlock();
-				}
+				} else
+					ev->setExpiration(ev->getDelay());
 			} else {
 				uniqueLock.lock();
 				m_eventList.erase(it);

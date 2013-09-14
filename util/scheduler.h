@@ -32,23 +32,33 @@
 
 typedef std::function<void ()> EventFunc;
 
-struct Event
+class Event
 {
-	Event(const EventFunc& f, int64_t delay, bool repeat)
+public:
+	Event(const EventFunc& f, int64_t delay, bool repeat) :
+		m_delay(delay),
+		m_repeat(repeat),
+		m_f(f)
 	{
-		m_repeat = repeat;
-		m_f = f;
-		m_waitTime = std::chrono::system_clock::now() + std::chrono::milliseconds(delay);
+		setExpiration(delay);
 	}
 
 	void setID(uint32_t i) { m_id = i; }
 	uint32_t getID() const { return m_id; }
 
+	void setRepeated(bool enable) { m_repeat = enable; }
 	bool isRepeated() const { return m_repeat; }
+
+	void setDelay(int64_t delay) { m_delay = delay; }
+	int64_t getDelay() const { return m_delay; }
+
+	void setExpiration(int64_t delay = 0) { m_waitTime = std::chrono::system_clock::now() + std::chrono::milliseconds(delay ?: m_delay); }
 	bool expired() const { return std::chrono::system_clock::now() >= m_waitTime; } 
+
 	void operator()() { m_f(); }
 
 private:
+	int64_t m_delay;
 	uint32_t m_id;
 	bool m_repeat;
 
@@ -74,12 +84,12 @@ private:
 	bool m_stopped;
 	uint32_t m_lastId;
 
-	std::list<EventPtr> m_eventList;
-	std::vector<uint32_t> m_eventIds;
-
 	std::thread m_thread;
 	std::mutex m_mutex;
 	std::condition_variable m_condition;
+
+	std::list<EventPtr> m_eventList;
+	std::vector<uint32_t> m_eventIds;
 };
 
 extern Scheduler g_sched;

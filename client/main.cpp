@@ -1,4 +1,5 @@
 #include "gui/mainwindow.h"
+#include "../util/scheduler.h"
 
 std::string g_progname;
 
@@ -12,6 +13,7 @@ int main(int argc, char *argv[])
 	while (!g_window.isClosed())
 		g_window.poll();
 
+	g_sched.stop();
 	return 0;
 }
 

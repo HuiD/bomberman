@@ -34,7 +34,6 @@ public:
 	Listener(const std::string& host, const std::string& port);
 	~Listener();
 
-	static void poll();
 	void start(const AcceptCallback& ac);
 	void close() { m_closed = true; }
 

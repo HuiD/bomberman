@@ -37,6 +37,12 @@ Connection::~Connection()
 	close();
 }
 
+void Connection::poll()
+{
+	g_service.poll();
+	g_service.reset();
+}
+
 void Connection::connect(const std::string& host, const std::string& port,
 		const std::function<void()>& cb)
 {

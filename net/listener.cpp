@@ -53,12 +53,6 @@ Listener::~Listener()
 
 }
 
-void Listener::poll()
-{
-	g_service.poll();
-	g_service.reset();
-}
-
 void Listener::start(const AcceptCallback& ac)
 {
 	if (m_closed)

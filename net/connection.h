@@ -35,6 +35,8 @@ public:
 	Connection();
 	~Connection();
 
+	static void poll();
+
 	void connect(const std::string& host, const std::string& port,
 			const std::function<void()>& cb);
 	void close();
