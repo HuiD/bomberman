@@ -65,6 +65,10 @@ else()
 	set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -Wl,--as-needed -Wl,-s") # strip all debug information
 endif()
 
+if(WIN32)
+	set(bomberman_DEFINITIONS ${bomberman_DEFINITIONS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501)
+endif()
+
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 add_definitions(${bomberman_DEFINITIONS})
 include(net/CMakeLists.txt)

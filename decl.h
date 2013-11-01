@@ -26,6 +26,7 @@
 #include "util/configmanager.h"
 
 /* Short naming  */
+typedef unsigned long int uint;
 typedef unsigned char uchar;
 typedef uint8_t  u8;
 typedef uint16_t u16;

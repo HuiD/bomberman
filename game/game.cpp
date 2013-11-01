@@ -85,6 +85,11 @@ void Game::processPlayerMove(uint32_t playerId, const Position2D& movePos)
 		return;
 
 	OutputMessage out;
+
+	out.addByte(NET_GAME_PLAYER_MOVE);
+	out.addU16(movePos.x);
+	out.addU16(movePos.y);
+
 }
 
 void Game::processPlayerConnect(uint32_t playerId, const ProtocolGamePtr& c)
