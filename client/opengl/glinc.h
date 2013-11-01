@@ -22,6 +22,11 @@
 #ifndef GLINC_H
 #define GLINC_H
 
+/* CMake no longer defines _WIN32 on Cygwin.  */
+#if defined(__CYGWIN__) && !defined(_WIN32)
+#define _WIN32
+#endif
+
 #if OPENGL_ES == 2
 #include <GLES2/gl2.h>
 #elif OPENGL_ES == 1

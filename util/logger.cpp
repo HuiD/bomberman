@@ -1,6 +1,7 @@
 #include "logger.h"
 
 #include <iostream>
+#include <stdlib.h>
 
 Logger g_logger;
 extern std::string g_progname;
