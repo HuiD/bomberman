@@ -6,7 +6,7 @@ std::string g_progname;
 int main(int argc, char *argv[])
 {
 	g_progname = argv[0];
-	g_logger.setLogFile(g_progname .. ".log");
+	g_logger.setLogFile(g_progname + ".log");
 
 	g_window.init();
 	g_window.show();
